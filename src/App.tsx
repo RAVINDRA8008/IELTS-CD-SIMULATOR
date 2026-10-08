@@ -14,8 +14,8 @@ import { VoiceSettingsModal } from './components/VoiceSettingsModal';
 import { TestHistoryModal } from './components/TestHistoryModal';
 
 export const App: React.FC = () => {
-  const [currentTestId, setCurrentTestId] = useState<number>(1);
-  const [test, setTest] = useState<IELTSTest>(() => getTestById(1));
+  const [currentTestId, setCurrentTestId] = useState<number>(() => storageService.getActiveTestId());
+  const [test, setTest] = useState<IELTSTest>(() => getTestById(storageService.getActiveTestId()));
 
   const [activeSectionNum, setActiveSectionNum] = useState<1 | 2 | 3 | 4>(1);
   const [currentQuestionId, setCurrentQuestionId] = useState<number>(1);
@@ -59,22 +59,35 @@ export const App: React.FC = () => {
     setIsPlaying(false);
     const newTest = getTestById(currentTestId);
     setTest(newTest);
-    setIsFinished(false);
-    setDiagnosticResult(null);
+    storageService.setActiveTestId(currentTestId);
 
-    // Check if user has saved draft answers for this test
-    const saved = storageService.loadProgress(currentTestId);
-    if (saved && saved.answers && Object.keys(saved.answers).length > 0) {
-      setUserAnswers(saved.answers);
-      setFlaggedQuestions(new Set(saved.flagged || []));
-      setActiveSectionNum(saved.activeSectionNum || 1);
-      setCurrentQuestionId(saved.currentQuestionId || 1);
-      setLastSavedAt(new Date(saved.lastUpdated));
+    // 1. Check if user has saved draft answers in progress
+    const savedDraft = storageService.loadProgress(currentTestId);
+    // 2. Check if user previously completed this test
+    const finishedState = storageService.loadFinishedTest(currentTestId);
+
+    if (savedDraft && savedDraft.answers && Object.keys(savedDraft.answers).length > 0) {
+      setUserAnswers(savedDraft.answers);
+      setFlaggedQuestions(new Set(savedDraft.flagged || []));
+      setActiveSectionNum(savedDraft.activeSectionNum || 1);
+      setCurrentQuestionId(savedDraft.currentQuestionId || 1);
+      setLastSavedAt(new Date(savedDraft.lastUpdated));
+      setIsFinished(false);
+      setDiagnosticResult(null);
+    } else if (finishedState) {
+      // Restore previously completed test with full answers and score
+      setUserAnswers(finishedState.userAnswers);
+      setFlaggedQuestions(new Set());
+      setDiagnosticResult(finishedState.result);
+      setIsFinished(true);
+      setLastSavedAt(new Date(finishedState.completedAt));
     } else {
       setUserAnswers({});
       setFlaggedQuestions(new Set());
       setActiveSectionNum(1);
       setCurrentQuestionId(1);
+      setIsFinished(false);
+      setDiagnosticResult(null);
       setLastSavedAt(null);
     }
   }, [currentTestId]);
@@ -198,11 +211,13 @@ export const App: React.FC = () => {
     setDiagnosticResult(result);
     setIsFinished(true);
 
-    // Save completed attempt record to persistent history
+    // 1. Save completed attempt record to persistent history
     storageService.saveAttempt(test.id, test.title, result, userAnswers);
-    // Clear draft in-progress answers so next retake starts fresh
-    storageService.clearProgress(test.id);
-    setLastSavedAt(null);
+    // 2. Save finished state so refreshing or coming back preserves score and answers
+    storageService.saveFinishedTest(test.id, test.title, result, userAnswers);
+    // 3. Clear draft in-progress answers only so next state is clean
+    storageService.clearProgressOnly(test.id);
+    setLastSavedAt(new Date());
   };
 
   const handleRetake = () => {

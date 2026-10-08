@@ -149,10 +149,14 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Real-time Save Status Pill */}
-          {lastSavedAt && (
-            <div className="hidden lg:flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/80 px-2 py-0.5 rounded-xs">
+          {lastSavedAt ? (
+            <div className="flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-950/80 border border-emerald-700 px-2 py-0.5 rounded-xs" title="All entered answers are automatically saved to browser storage">
               <Check className="w-3 h-3 text-emerald-400" />
-              <span>Answers Saved</span>
+              <span>Saved</span>
+            </div>
+          ) : (
+            <div className="hidden sm:flex items-center gap-1 text-[10px] font-mono text-slate-400 bg-slate-900 border border-slate-700 px-2 py-0.5 rounded-xs" title="Auto-saves as you type">
+              <span>Auto-save ON</span>
             </div>
           )}
         </div>

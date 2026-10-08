@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { Section, Question, UserAnswers } from '../types/test';
 import { GapFillQuestion } from './questions/GapFillQuestion';
 import { MultipleChoiceQuestion } from './questions/MultipleChoiceQuestion';
+import { MapLabellingQuestion } from './questions/MapLabellingQuestion';
+import { MatchingQuestion } from './questions/MatchingQuestion';
 import { AlertCircle, Info, FileSpreadsheet, Headphones } from 'lucide-react';
 
 interface ExamViewProps {
@@ -134,6 +136,22 @@ export const ExamView: React.FC<ExamViewProps> = ({
                   <MultipleChoiceQuestion
                     question={question}
                     userAnswer={userAnswers[question.id] || ''}
+                    onAnswerChange={onAnswerChange}
+                    isFlagged={flaggedQuestions.has(question.id)}
+                    onToggleFlag={onToggleFlag}
+                  />
+                ) : question.type === 'map_labelling' ? (
+                  <MapLabellingQuestion
+                    question={question}
+                    userAnswer={String(userAnswers[question.id] || '')}
+                    onAnswerChange={onAnswerChange}
+                    isFlagged={flaggedQuestions.has(question.id)}
+                    onToggleFlag={onToggleFlag}
+                  />
+                ) : question.type === 'matching' ? (
+                  <MatchingQuestion
+                    question={question}
+                    userAnswer={String(userAnswers[question.id] || '')}
                     onAnswerChange={onAnswerChange}
                     isFlagged={flaggedQuestions.has(question.id)}
                     onToggleFlag={onToggleFlag}

@@ -418,13 +418,13 @@ export const S2_ARCHETYPES: S2Archetype[] = [
         { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Welcome to the Royal Horological Observatory. I am Alistair Sterling. The great clockwork tower was commissioned in ${year}.` },
         { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `The escapements remained frozen for several decades after a devastating ${damage} cracked the upper pendulum housing.` },
         { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Following extensive public subscription, the clockwork observatory reopened in ${renoYear}.` },
-        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Under our charter, ${conservPct} percent of admissions maintains antique timepiece mechanisms.` },
-        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Furthermore, ${eduPct} percent supports secondary school astronomy workshops.` },
-        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `The remaining ${secPct} percent covers the digital security network.` },
-        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Visitors are encouraged to take photographs across the open ${permArea}.` },
-        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `In contrast, entering the ${chamber} requires all flash and tripod gear to be checked into lockers.` },
-        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `We enforce this rule strictly to protect fragile ${fragileItem} from accidental impact and light bursts.` },
-        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Five minutes before hourly strikes, guards will sound the ${signal}.` }
+        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Now, regarding visitor regulations across our different horological sections:` },
+        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `First, the sundial terraces are open to all visitors without any advance booking.` },
+        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Second, the antique timepiece library requires visitors to reserve a research pass 24 hours in advance.` },
+        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Third, the master gear assembly vault is strictly restricted to accompanied guided groups only.` },
+        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `And fourth, the roof astronomy turret is temporarily closed for structural restoration.` },
+        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `In summary, to access our specialized historical collections, guests must either book ahead or join an accompanied group.` },
+        { speaker: "Horologist Sterling", speakerRole: 'speaker1', accent: 'en-GB', text: `Five minutes before hourly strikes, guards will sound the loud ${signal}.` }
       ];
 
       const questions: Question[] = [
@@ -448,15 +448,11 @@ export const S2_ARCHETYPES: S2Archetype[] = [
         {
           id: 12,
           sectionId: 2,
-          type: 'multiple_choice',
-          prompt: "What physical failure halted the pendulum mechanisms for decades?",
-          instruction: "Choose the correct letter, A, B, or C.",
-          options: [
-            `A) A devastating ${damage}`,
-            `B) A stolen master counterweight`,
-            `C) Extreme temperature expansion`
-          ],
-          acceptedAnswers: ["A"],
+          type: 'gap_fill',
+          prompt: "Physical event that halted the pendulum mechanisms for decades:",
+          instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+          contextBefore: "Damaged by: ",
+          acceptedAnswers: [damage.toLowerCase()],
           distractors: [],
           evidenceQuote: `...after a devastating ${damage} cracked the upper pendulum housing.`,
           listeningTechnique: "Identify mechanical disruption causes.",
@@ -479,92 +475,118 @@ export const S2_ARCHETYPES: S2Archetype[] = [
           listeningTechnique: "Isolate public reopening milestones.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q14: Matching
         {
           id: 14,
           sectionId: 2,
-          type: 'multiple_choice_multi',
-          prompt: "Which TWO initiatives are supported by the observatory's charter funding?",
-          instruction: "Choose TWO letters, A-E.",
+          type: 'matching',
+          prompt: "Sundial terraces",
+          instruction: "What visitor regulation applies to each horological section? Choose the correct letter, A, B, C, or D.",
           options: [
-            "A) Antique timepiece mechanism maintenance",
-            "B) Deep-space satellite launches",
-            "C) Secondary school astronomy workshops",
-            "D) Naval compass exports",
-            "E) Private collector auctions"
+            "A - Open to all visitors without any advance booking",
+            "B - Requires a research pass booked 24 hours in advance",
+            "C - Restricted to accompanied guided groups only",
+            "D - Temporarily closed for structural restoration"
           ],
-          maxSelectable: 2,
-          acceptedAnswers: ["A, C", "AC", "C, A", "CA"],
+          acceptedAnswers: ["A"],
           distractors: [],
-          evidenceQuote: `...maintains antique timepiece mechanisms... supports secondary school astronomy workshops.`,
-          listeningTechnique: "Track multiple concurrent institutional initiatives.",
+          evidenceQuote: `First, the sundial terraces are open to all visitors without any advance booking.`,
+          listeningTechnique: "Match visitor zones to specific operational regulations.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q15: Matching
         {
           id: 15,
           sectionId: 2,
-          type: 'gap_fill',
-          prompt: "Percentage covering the digital security network:",
-          instruction: "Write ONE NUMBER ONLY for each answer.",
-          contextBefore: "Security network: ",
-          contextAfter: " %",
-          acceptedAnswers: [String(secPct)],
+          type: 'matching',
+          prompt: "Antique timepiece library",
+          instruction: "What visitor regulation applies to each horological section? Choose the correct letter, A, B, C, or D.",
+          options: [
+            "A - Open to all visitors without any advance booking",
+            "B - Requires a research pass booked 24 hours in advance",
+            "C - Restricted to accompanied guided groups only",
+            "D - Temporarily closed for structural restoration"
+          ],
+          acceptedAnswers: ["B"],
           distractors: [],
-          evidenceQuote: `The remaining ${secPct} percent covers the digital security network.`,
-          listeningTechnique: "Identify security allocation percentages.",
+          evidenceQuote: `Second, the antique timepiece library requires visitors to reserve a research pass 24 hours in advance.`,
+          listeningTechnique: "Match advance booking conditions to target collections.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q16: Matching
         {
           id: 16,
           sectionId: 2,
-          type: 'gap_fill',
-          prompt: "Area where photography is encouraged:",
-          instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-          contextBefore: "Photographs allowed on: ",
-          acceptedAnswers: [permArea.toLowerCase()],
+          type: 'matching',
+          prompt: "Master gear assembly vault",
+          instruction: "What visitor regulation applies to each horological section? Choose the correct letter, A, B, C, or D.",
+          options: [
+            "A - Open to all visitors without any advance booking",
+            "B - Requires a research pass booked 24 hours in advance",
+            "C - Restricted to accompanied guided groups only",
+            "D - Temporarily closed for structural restoration"
+          ],
+          acceptedAnswers: ["C"],
           distractors: [],
-          evidenceQuote: `...photographs across the open ${permArea}.`,
-          listeningTechnique: "Capture unrestricted outdoor areas.",
+          evidenceQuote: `Third, the master gear assembly vault is strictly restricted to accompanied guided groups only.`,
+          listeningTechnique: "Identify guided-only restrictions across exhibition areas.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q17: Matching
         {
           id: 17,
           sectionId: 2,
-          type: 'gap_fill',
-          prompt: "Restricted room where tripods must be placed into lockers:",
-          instruction: "Write NO MORE THAN THREE WORDS for each answer.",
-          contextBefore: "Check gear before: ",
-          acceptedAnswers: [chamber.toLowerCase(), "chronometer chamber"],
+          type: 'matching',
+          prompt: "Roof astronomy turret",
+          instruction: "What visitor regulation applies to each horological section? Choose the correct letter, A, B, C, or D.",
+          options: [
+            "A - Open to all visitors without any advance booking",
+            "B - Requires a research pass booked 24 hours in advance",
+            "C - Restricted to accompanied guided groups only",
+            "D - Temporarily closed for structural restoration"
+          ],
+          acceptedAnswers: ["D"],
           distractors: [],
-          evidenceQuote: `In contrast, entering the ${chamber} requires all flash and tripod gear to be checked...`,
-          listeningTechnique: "Note names of protected horological vaults.",
+          evidenceQuote: `And fourth, the roof astronomy turret is temporarily closed for structural restoration.`,
+          listeningTechnique: "Extract temporary closure status across visitor zones.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q18: Multiple Choice Multi
         {
           id: 18,
           sectionId: 2,
-          type: 'gap_fill',
-          prompt: "Delicate timepiece components shielded from accidental impact:",
-          instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-          contextBefore: "Protects: ",
-          acceptedAnswers: [fragileItem.toLowerCase()],
-          distractors: [],
-          evidenceQuote: `...protect fragile ${fragileItem} from accidental impact and light bursts.`,
-          listeningTechnique: "Identify delicate horological mechanisms.",
+          type: 'multiple_choice_multi',
+          prompt: "Which TWO sections require either an advance pass or an accompanying guide?",
+          instruction: "Choose TWO letters, A-E.",
+          options: [
+            "A) Master gear assembly vault",
+            "B) Antique timepiece library",
+            "C) Sundial terraces",
+            "D) Public gift shop",
+            "E) Ground floor restrooms"
+          ],
+          maxSelectable: 2,
+          acceptedAnswers: ["A, B", "AB", "B, A", "BA"],
+          distractors: [{ choiceOrWord: "C", trapReason: "Sundial terraces are open without booking." }],
+          evidenceQuote: `...to access our specialized historical collections, guests must either book ahead or join an accompanied group.`,
+          listeningTechnique: "Synthesize multi-criteria access requirements.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q19: Gap Fill
         {
           id: 19,
           sectionId: 2,
           type: 'gap_fill',
-          prompt: "Auditory signal sounded before hourly strikes:",
+          prompt: "Auditory signal sounded five minutes before hourly strikes:",
           instruction: "Write NO MORE THAN TWO WORDS for each answer.",
           contextBefore: "Sounded: ",
           acceptedAnswers: [signal.toLowerCase()],
           distractors: [],
-          evidenceQuote: `...guards will sound the ${signal}.`,
+          evidenceQuote: `Five minutes before hourly strikes, guards will sound the loud ${signal}.`,
           listeningTechnique: "Capture warning acoustic signals.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q20: Multiple Choice
         {
           id: 20,
           sectionId: 2,
@@ -578,7 +600,7 @@ export const S2_ARCHETYPES: S2Archetype[] = [
           ],
           acceptedAnswers: ["B", "5 minutes", "5"],
           distractors: [],
-          evidenceQuote: `Five minutes before hourly strikes, guards will sound the ${signal}.`,
+          evidenceQuote: `Five minutes before hourly strikes, guards will sound the loud ${signal}.`,
           listeningTechnique: "Extract lead time durations before scheduled events.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         }
@@ -795,21 +817,93 @@ export const S2_ARCHETYPES: S2Archetype[] = [
       const signal = ["warning buzzer", "closing chime", "patrol bell"][testId % 3];
 
       const audio: AudioTurn[] = [
-        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Welcome to Chedworth Roman Villa. I am Dr. Marcus Higgins. The initial Roman ruins were uncovered in ${year}.` },
+        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Welcome to Chedworth Roman Villa. I am Dr. Marcus Higgins. Please refer to the plan of the excavated villa complex on your screens.` },
+        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `We are standing here at the South Entrance. If you walk along the western portico towards the bathhouse, location A is the Hypocaust Bath Chamber.` },
+        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Directly opposite on the eastern courtyard wing, location B marks the Great Mosaic Dining Room.` },
+        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `At the central courtyard garden, location C is the Nymphaeum Sacred Spring.` },
+        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `And at the northern perimeter beyond the stone wall, location D is our Active Excavation Workstation.` },
+        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Regarding our history: the initial Roman ruins were uncovered in ${year}.` },
         { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Early preservation efforts suffered when ${damage} compromised the uncovered bathhouse stonework.` },
         { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Our new climate-controlled mosaic pavilion was unveiled to visitors in ${renoYear}.` },
         { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Under our heritage agreement, ${conservPct} percent of gate receipts is invested in mosaic conservation.` },
-        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Another ${eduPct} percent supports university archaeological student fieldwork.` },
-        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `The remaining ${secPct} percent funds climate sensors and site security.` },
-        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Visitors may take pictures anywhere across the ${permArea}.` },
-        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `However, within the ${chamber}, flash photography is forbidden.` },
-        { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `This protects our delicate 4th-century ${fragileItem} from pigment fading.` },
         { speaker: "Dr. Higgins", speakerRole: 'speaker1', accent: 'en-GB', text: `Ten minutes before the gates are secured, staff activate the ${signal}.` }
       ];
 
+      const villaMapData = {
+        title: "Chedworth Roman Villa Excavation Site",
+        subtitle: "Ground Plan & Visitor Route",
+        locations: [
+          { letter: 'A', name: 'Hypocaust Bath Chamber', x: 26, y: 38 },
+          { letter: 'B', name: 'Great Mosaic Dining Room', x: 74, y: 38 },
+          { letter: 'C', name: 'Nymphaeum Sacred Spring', x: 50, y: 56 },
+          { letter: 'D', name: 'Active Excavation Workstation', x: 50, y: 18 }
+        ]
+      };
+
       const questions: Question[] = [
+        // Q11: Map Labelling
         {
           id: 11,
+          sectionId: 2,
+          type: 'map_labelling',
+          prompt: "Hypocaust Bath Chamber",
+          instruction: "Label the plan below. Choose the correct letter, A–D.",
+          mapData: villaMapData,
+          options: ["Location A", "Location B", "Location C", "Location D"],
+          acceptedAnswers: ["A"],
+          distractors: [],
+          evidenceQuote: `...location A is the Hypocaust Bath Chamber.`,
+          listeningTechnique: "Follow cardinal and spatial directions on the architectural plan.",
+          difficultyProfile: generateDifficultyProfile(rng, 2)
+        },
+        // Q12: Map Labelling
+        {
+          id: 12,
+          sectionId: 2,
+          type: 'map_labelling',
+          prompt: "Great Mosaic Dining Room",
+          instruction: "Label the plan below. Choose the correct letter, A–D.",
+          mapData: villaMapData,
+          options: ["Location A", "Location B", "Location C", "Location D"],
+          acceptedAnswers: ["B"],
+          distractors: [],
+          evidenceQuote: `...location B marks the Great Mosaic Dining Room.`,
+          listeningTechnique: "Track opposing courtyard wing locations on the layout.",
+          difficultyProfile: generateDifficultyProfile(rng, 2)
+        },
+        // Q13: Map Labelling
+        {
+          id: 13,
+          sectionId: 2,
+          type: 'map_labelling',
+          prompt: "Nymphaeum Sacred Spring",
+          instruction: "Label the plan below. Choose the correct letter, A–D.",
+          mapData: villaMapData,
+          options: ["Location A", "Location B", "Location C", "Location D"],
+          acceptedAnswers: ["C"],
+          distractors: [],
+          evidenceQuote: `...location C is the Nymphaeum Sacred Spring.`,
+          listeningTechnique: "Locate central courtyard water features on the diagram.",
+          difficultyProfile: generateDifficultyProfile(rng, 2)
+        },
+        // Q14: Map Labelling
+        {
+          id: 14,
+          sectionId: 2,
+          type: 'map_labelling',
+          prompt: "Active Excavation Workstation",
+          instruction: "Label the plan below. Choose the correct letter, A–D.",
+          mapData: villaMapData,
+          options: ["Location A", "Location B", "Location C", "Location D"],
+          acceptedAnswers: ["D"],
+          distractors: [],
+          evidenceQuote: `...location D is our Active Excavation Workstation.`,
+          listeningTechnique: "Identify northern perimeter archaeological dig zones.",
+          difficultyProfile: generateDifficultyProfile(rng, 2)
+        },
+        // Q15: Multiple Choice
+        {
+          id: 15,
           sectionId: 2,
           type: 'multiple_choice',
           prompt: "In what year were the Roman ruins initially uncovered?",
@@ -825,28 +919,26 @@ export const S2_ARCHETYPES: S2Archetype[] = [
           listeningTechnique: "Transcribe archaeological discovery dates.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q16: Gap Fill
         {
-          id: 12,
+          id: 16,
           sectionId: 2,
-          type: 'multiple_choice',
-          prompt: "What damage compromised early preservation efforts?",
-          instruction: "Choose the correct letter, A, B, or C.",
-          options: [
-            `A) ${damage}`,
-            `B) Vandalism by tomb raiders`,
-            `C) Acid rain decay`
-          ],
-          acceptedAnswers: ["A"],
+          type: 'gap_fill',
+          prompt: "Environmental damage that compromised early bathhouse stonework:",
+          instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+          contextBefore: "Damaged by: ",
+          acceptedAnswers: [damage.toLowerCase()],
           distractors: [],
           evidenceQuote: `...suffered when ${damage} compromised the uncovered bathhouse stonework.`,
           listeningTechnique: "Identify physical causes of stone degradation.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q17: Multiple Choice
         {
-          id: 13,
+          id: 17,
           sectionId: 2,
           type: 'multiple_choice',
-          prompt: "When was the climate-controlled mosaic pavilion unveiled?",
+          prompt: "When was the climate-controlled mosaic pavilion unveiled to visitors?",
           instruction: "Choose the correct letter, A, B, or C.",
           options: [
             `A) ${year}`,
@@ -859,79 +951,25 @@ export const S2_ARCHETYPES: S2Archetype[] = [
           listeningTechnique: "Isolate modern pavilion opening milestones.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
-        {
-          id: 14,
-          sectionId: 2,
-          type: 'multiple_choice_multi',
-          prompt: "Which TWO activities are supported by gate receipts?",
-          instruction: "Choose TWO letters, A-E.",
-          options: [
-            "A) Mosaic conservation",
-            "B) Private antique auctions",
-            "C) University archaeological student fieldwork",
-            "D) Overseas museum acquisitions",
-            "E) Highway construction lobbying"
-          ],
-          maxSelectable: 2,
-          acceptedAnswers: ["A, C", "AC", "C, A", "CA"],
-          distractors: [],
-          evidenceQuote: `...invested in mosaic conservation... supports university archaeological student fieldwork.`,
-          listeningTechnique: "Track multiple concurrent heritage expenditures.",
-          difficultyProfile: generateDifficultyProfile(rng, 2)
-        },
-        {
-          id: 15,
-          sectionId: 2,
-          type: 'gap_fill',
-          prompt: "Percentage funding climate sensors and site security:",
-          instruction: "Write ONE NUMBER ONLY for each answer.",
-          contextBefore: "Sensors and security: ",
-          contextAfter: " %",
-          acceptedAnswers: [String(secPct)],
-          distractors: [],
-          evidenceQuote: `The remaining ${secPct} percent funds climate sensors and site security.`,
-          listeningTechnique: "Extract residual security budgets.",
-          difficultyProfile: generateDifficultyProfile(rng, 2)
-        },
-        {
-          id: 16,
-          sectionId: 2,
-          type: 'gap_fill',
-          prompt: "Area where photography is permitted anywhere:",
-          instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-          contextBefore: "Allowed across: ",
-          acceptedAnswers: [permArea.toLowerCase()],
-          distractors: [],
-          evidenceQuote: `...take pictures anywhere across the ${permArea}.`,
-          listeningTechnique: "Capture unrestricted courtyard locations.",
-          difficultyProfile: generateDifficultyProfile(rng, 2)
-        },
-        {
-          id: 17,
-          sectionId: 2,
-          type: 'gap_fill',
-          prompt: "Chamber where flash photography is strictly forbidden:",
-          instruction: "Write NO MORE THAN THREE WORDS for each answer.",
-          contextBefore: "Forbidden within: ",
-          acceptedAnswers: [chamber.toLowerCase(), "bath chamber"],
-          distractors: [],
-          evidenceQuote: `However, within the ${chamber}, flash photography is forbidden.`,
-          listeningTechnique: "Transcribe protected Roman bathhouse names.",
-          difficultyProfile: generateDifficultyProfile(rng, 2)
-        },
+        // Q18: Multiple Choice
         {
           id: 18,
           sectionId: 2,
-          type: 'gap_fill',
-          prompt: "Delicate historical artifacts protected from pigment fading:",
-          instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-          contextBefore: "Protects 4th-century: ",
-          acceptedAnswers: [fragileItem.toLowerCase()],
+          type: 'multiple_choice',
+          prompt: "What percentage of gate receipts is invested directly in mosaic conservation?",
+          instruction: "Choose the correct letter, A, B, or C.",
+          options: [
+            `A) ${conservPct}%`,
+            `B) ${conservPct - 15}%`,
+            `C) 80%`
+          ],
+          acceptedAnswers: ["A", `${conservPct}%`, String(conservPct)],
           distractors: [],
-          evidenceQuote: `This protects our delicate 4th-century ${fragileItem} from pigment fading.`,
-          listeningTechnique: "Identify delicate Roman wall and floor decorations.",
+          evidenceQuote: `Under our heritage agreement, ${conservPct} percent of gate receipts is invested in mosaic conservation.`,
+          listeningTechnique: "Capture conservation budget proportions.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q19: Gap Fill
         {
           id: 19,
           sectionId: 2,
@@ -945,6 +983,7 @@ export const S2_ARCHETYPES: S2Archetype[] = [
           listeningTechnique: "Identify closing alerts.",
           difficultyProfile: generateDifficultyProfile(rng, 2)
         },
+        // Q20: Multiple Choice
         {
           id: 20,
           sectionId: 2,
@@ -956,7 +995,7 @@ export const S2_ARCHETYPES: S2Archetype[] = [
             "B) 10 minutes",
             "C) 20 minutes"
           ],
-          acceptedAnswers: ["B", "10 minutes", "10"],
+          acceptedAnswers: ["B", "10", "10 minutes"],
           distractors: [],
           evidenceQuote: `Ten minutes before the gates are secured, staff activate the ${signal}.`,
           listeningTechnique: "Capture lead time minutes before closing.",
@@ -1160,7 +1199,7 @@ export const S2_ARCHETYPES: S2Archetype[] = [
 ];
 
 export function generateProceduralSection2(testId: number, rng: () => number): Section {
-  const archIndex = (testId * 3) % S2_ARCHETYPES.length;
+  const archIndex = (testId * 5) % S2_ARCHETYPES.length;
   const arch = S2_ARCHETYPES[archIndex];
   const { audio, questions } = arch.build(testId, rng);
 

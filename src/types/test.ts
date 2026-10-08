@@ -33,6 +33,19 @@ export interface DistractorExplanation {
   trapReason: string;
 }
 
+export interface MapLocation {
+  letter: string;
+  name?: string;
+  x: number; // percentage 0-100
+  y: number; // percentage 0-100
+}
+
+export interface MapData {
+  title: string;
+  subtitle?: string;
+  locations: MapLocation[];
+}
+
 export interface Question {
   id: number;                         // 1 - 40
   sectionId: 1 | 2 | 3 | 4;
@@ -42,6 +55,7 @@ export interface Question {
   contextBefore?: string;             // For gap fills: text preceding the blank
   contextAfter?: string;              // For gap fills: text succeeding the blank
   options?: string[];                 // For MCQs / matching
+  mapData?: MapData;                  // For map_labelling
   maxSelectable?: number;             // For multiple_choice_multi (e.g. choose 2)
   acceptedAnswers: string[];          // Allowed normalized variations
   distractors: DistractorExplanation[];// Breakdown of every distractor
